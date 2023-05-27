@@ -24,10 +24,12 @@ desired Product.
 **3. Use Feign Client**
 
 ## Usage
-These API endpoints for the project are accessible at http://localhost:8081/api/v1/products.
+The API endpoints for the Products are accessible at http://localhost:8081/api/v1/products.
 
 * GET /api/v1/products: Retrieves a list of all products.
 * GET /api/v1/products/{id}: Retrieves a single product with the given ID.
 * POST /api/v1/products: Creates a new product.
 * PUT /api/v1/products/{id}: Updates an existing product with the given ID.
 * DELETE /api/v1/products/{id}: Deletes a product with the given ID.
+
+The API endpoints for the Inventories are accessible at http://localhost:8082/api/v1/inventories.

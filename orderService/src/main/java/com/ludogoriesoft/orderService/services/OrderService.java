@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,16 +25,19 @@ public class OrderService {
     public OrderDTO orderToOrderDTO(Order order){
         return modelMapper.map(order, OrderDTO.class);
     }
+    public List<OrderDTO> getAllOrders() {
+        List<Order> inventories = orderRepository.findAll();
+        return inventories
+                .stream()
+                .map(this::orderToOrderDTO)
+                .collect(Collectors.toList());
+    }
     public OrderDTO createOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setCreatedAt(LocalDateTime.now());
         order.setCustomer(orderRequest.getCustomer());
         orderRepository.save(order);
-        //try{
-              orderProductsService.createOrderProductsFromOrderRequest(orderRequest, order);
-        //}catch (Exception e){
-        //    throw new ApiRequestException("Product not found");
-        //}
+        orderProductsService.createOrderProductsFromOrderRequest(orderRequest, order);
         return orderToOrderDTO(order);
     }
 }
