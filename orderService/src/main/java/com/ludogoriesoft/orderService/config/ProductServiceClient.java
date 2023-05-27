@@ -1,6 +1,6 @@
-package com.ludogoriesoft.inventoryService.config;
+package com.ludogoriesoft.orderService.config;
 
-import com.ludogoriesoft.inventoryService.entities.Product;
+import com.ludogoriesoft.orderService.entities.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
