@@ -5,7 +5,9 @@ import com.ludogoriesoft.inventoryService.services.InventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,4 +27,12 @@ public class InventoryController {
     public ResponseEntity<InventoryDTO> updateInventoryById(@PathVariable Long id, @RequestBody InventoryDTO inventoryDTO) {
         return ResponseEntity.ok(inventoryService.updateInventoryByProductId(id, inventoryDTO));
     }
+    @PostMapping
+    public ResponseEntity<InventoryDTO> createInventory(@RequestBody InventoryDTO inventoryDTO, UriComponentsBuilder uriComponentsBuilder) {
+        URI location = uriComponentsBuilder.path("/api/v1/inventories/{id}")
+                .buildAndExpand(inventoryService.createInventory(inventoryDTO).getProductId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
 }

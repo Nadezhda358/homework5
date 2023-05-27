@@ -3,6 +3,7 @@ package com.ludogoriesoft.inventoryService.services;
 import com.ludogoriesoft.inventoryService.config.ProductServiceClient;
 import com.ludogoriesoft.inventoryService.dto.InventoryDTO;
 import com.ludogoriesoft.inventoryService.entities.Inventory;
+import com.ludogoriesoft.inventoryService.entities.Product;
 import com.ludogoriesoft.inventoryService.exeptions.ApiRequestException;
 import com.ludogoriesoft.inventoryService.repositories.InventoryRepository;
 import lombok.AllArgsConstructor;
@@ -41,9 +42,30 @@ public class InventoryService {
             throw new ApiRequestException("Inventory not found");
         }
         foundInventory.setQuantity(inventory.getQuantity());
-        foundInventory.setProduct(productServiceClient.getProductById(inventory.getProductId()));
+        try {
+            foundInventory.setProduct(productServiceClient.getProductById(inventory.getProductId()));
+        }catch (Exception e){
+            throw new ApiRequestException("Product not found");
+        }
         inventoryRepository.save(foundInventory);
         return inventory;
+    }
+    public InventoryDTO createInventory(InventoryDTO inventoryDTO) {
+        if(inventoryRepository.getInventoryByProductId(inventoryDTO.getProductId()) == null){
+            Inventory inventory = new Inventory();
+            inventory.setQuantity(inventoryDTO.getQuantity());
+            Product product;
+            try {
+                product = productServiceClient.getProductById(inventoryDTO.getProductId());
+            }catch (Exception e){
+                throw new ApiRequestException("Product not found");
+            }
+            inventory.setProduct(product);
+            inventoryRepository.save(inventory);
+            return inventoryDTO;
+        }else{
+            throw new ApiRequestException("An inventory already exists with this productId");
+        }
     }
 
 }
