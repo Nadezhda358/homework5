@@ -33,3 +33,22 @@ The API endpoints for the Products are accessible at http://localhost:8081/api/v
 * DELETE /api/v1/products/{id}: Deletes a product with the given ID.
 
 The API endpoints for the Inventories are accessible at http://localhost:8082/api/v1/inventories.
+
+* GET /api/v1/inventories: Retrieves a list of all inventories.
+* GET /api/v1/inventories/{id}: Retrieves a single inventory with the given product ID.
+* POST /api/v1/inventories: Creates a new inventory.
+* PUT /api/v1/inventories/{id}: Updates an existing inventory with the given product ID.
+
+The API endpoints for the Orders are accessible at http://localhost:8083/api/v1/orders.
+
+* GET /api/v1/orders: Retrieves a list of all orders.
+* POST /api/v1/orders: Creates a new order.
+
+Example for POST:
+{
+    "customer": "testCustomer",
+    "productIds": [2, 4],
+    "quantities": [1, 10]
+}
+
+For now, the OrderProducts can only be seen in the database.
