@@ -2,6 +2,7 @@ package com.ludogoriesoft.inventoryService.services;
 
 import com.ludogoriesoft.inventoryService.dto.InventoryDTO;
 import com.ludogoriesoft.inventoryService.entities.Inventory;
+import com.ludogoriesoft.inventoryService.exeptions.ApiRequestException;
 import com.ludogoriesoft.inventoryService.repositories.InventoryRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,4 +26,12 @@ public class InventoryService {
                 .map(this::inventoryToInventoryDTO)
                 .collect(Collectors.toList());
     }
+    public InventoryDTO getInventoryByProductId(Long id){
+        Inventory inventory = inventoryRepository.getInventoryByProductId(id);
+        if (inventory == null) {
+            throw new ApiRequestException("Inventory not found");
+        }
+        return inventoryToInventoryDTO(inventory);
+    }
+
 }

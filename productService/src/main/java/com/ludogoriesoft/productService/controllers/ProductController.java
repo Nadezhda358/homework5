@@ -40,11 +40,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
     @DeleteMapping
-    public ResponseEntity<Void> deleteProductById(@PathVariable("id") Long id) {
-        int rowsAffected = productService.deleteProductById(id);
-        if (rowsAffected > 0) {
+    public ResponseEntity<Product> deleteProductById(@PathVariable("id") Long id) {
+        try {
+            productService.deleteProductById(id);
             return ResponseEntity.noContent().build();
-        } else {
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

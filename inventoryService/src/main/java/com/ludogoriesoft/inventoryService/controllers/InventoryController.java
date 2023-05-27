@@ -5,6 +5,7 @@ import com.ludogoriesoft.inventoryService.services.InventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +19,9 @@ public class InventoryController {
     @GetMapping
     public ResponseEntity<List<InventoryDTO>> getAllInventories() {
         return ResponseEntity.ok(inventoryService.getAllInventories());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<InventoryDTO> getInventoryByProductId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(inventoryService.getInventoryByProductId(id));
     }
 }
