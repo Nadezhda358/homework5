@@ -4,7 +4,6 @@ import com.ludogoriesoft.orderService.config.ProductServiceClient;
 import com.ludogoriesoft.orderService.dto.OrderDTO;
 import com.ludogoriesoft.orderService.dto.OrderRequest;
 import com.ludogoriesoft.orderService.entities.Order;
-import com.ludogoriesoft.orderService.exceptions.ApiRequestException;
 import com.ludogoriesoft.orderService.repositories.OrderProductRepository;
 import com.ludogoriesoft.orderService.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -29,11 +28,11 @@ public class OrderService {
         order.setCreatedAt(LocalDateTime.now());
         order.setCustomer(orderRequest.getCustomer());
         orderRepository.save(order);
-        try{
-            orderProductsService.createOrderProductsFromOrderRequest(orderRequest, order);
-        }catch (Exception e){
-            throw new ApiRequestException("Product not found");
-        }
+        //try{
+              orderProductsService.createOrderProductsFromOrderRequest(orderRequest, order);
+        //}catch (Exception e){
+        //    throw new ApiRequestException("Product not found");
+        //}
         return orderToOrderDTO(order);
     }
 }
