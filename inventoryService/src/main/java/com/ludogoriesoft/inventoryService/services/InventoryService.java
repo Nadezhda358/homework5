@@ -1,5 +1,6 @@
 package com.ludogoriesoft.inventoryService.services;
 
+import com.ludogoriesoft.inventoryService.config.ProductServiceClient;
 import com.ludogoriesoft.inventoryService.dto.InventoryDTO;
 import com.ludogoriesoft.inventoryService.entities.Inventory;
 import com.ludogoriesoft.inventoryService.exeptions.ApiRequestException;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
     private final ModelMapper modelMapper;
+    private final ProductServiceClient productServiceClient;
     public InventoryDTO inventoryToInventoryDTO(Inventory inventory){
         return modelMapper.map(inventory, InventoryDTO.class);
     }
@@ -32,6 +34,16 @@ public class InventoryService {
             throw new ApiRequestException("Inventory not found");
         }
         return inventoryToInventoryDTO(inventory);
+    }
+    public InventoryDTO updateInventoryByProductId(Long id, InventoryDTO inventory) {
+        Inventory foundInventory = inventoryRepository.getInventoryByProductId(id);
+        if (foundInventory == null) {
+            throw new ApiRequestException("Inventory not found");
+        }
+        foundInventory.setQuantity(inventory.getQuantity());
+        foundInventory.setProduct(productServiceClient.getProductById(inventory.getProductId()));
+        inventoryRepository.save(foundInventory);
+        return inventory;
     }
 
 }

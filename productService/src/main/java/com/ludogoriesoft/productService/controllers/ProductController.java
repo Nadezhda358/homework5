@@ -35,16 +35,16 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProductById(@PathVariable("id") Long id) {
-        try {
-            productService.deleteProductById(id);
+        int rowsAffected = productService.deleteProductById(id);
+        if (rowsAffected > 0) {
             return ResponseEntity.noContent().build();
-        } catch (Exception e) {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

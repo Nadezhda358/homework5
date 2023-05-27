@@ -6,6 +6,7 @@ import com.ludogoriesoft.productService.exeptions.ApiRequestException;
 import com.ludogoriesoft.productService.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,8 +52,13 @@ public class ProductService {
         productRepository.save(foundProduct.get());
         return productToProductDTO(foundProduct.get());
     }
-    public void deleteProductById(Long id) {
-        productRepository.deleteById(id);
+    public int deleteProductById(Long id) {
+        try {
+            productRepository.deleteById(id);
+            return 1;
+        } catch (EmptyResultDataAccessException e) {
+            return 0;
+        }
     }
 
 }
